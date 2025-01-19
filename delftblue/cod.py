@@ -130,7 +130,7 @@ err_weakX1_list_Milstein = np.abs(np.mean(err_weakX1_array_Milstein, axis=0))
 err_weakX2_list_Milstein = np.abs(np.mean(err_weakX2_array_Milstein, axis=0))
 
 end_time = time.time()
-print(f"Time taken: {end_time-start_time}")
+print(f"Time taken for {dW_realizations} realizations and exact dt={dt_exact}: {end_time-start_time} seconds")
     
 plt.loglog(dt_list, err_strongX1_list_Ito)
 plt.loglog(dt_list, err_strongX2_list_Ito)
