@@ -7,6 +7,8 @@ import time
 np.random.seed(0)
 path = os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])))
 print(path)
+err_color = 'blue'
+line_color = 'red'
 
 a = 0.3
 b = 0.6
@@ -65,7 +67,7 @@ def Num_Scheme(X10, X20, N, dW_exact, case):
 
     return X1_list, X2_list
 
-dt_list = [0.5, 0.1, 0.05, 0.01, 0.005, 0.001, 0.0005]
+dt_list = np.array([0.5, 0.1, 0.05, 0.01, 0.005, 0.001, 0.0005])
 dW_realizations = 1000
 
 err_strongX1_array_Ito = np.zeros((dW_realizations, len(dt_list)))
@@ -88,7 +90,7 @@ for i in range(dW_realizations):
     dW_exact_realization = np.random.normal(mu, np.sqrt(dt_exact), int(T/dt_exact))
     for j in range(len(dt_list)):
         dt = dt_list[j]
-        print(f"dt: {dt}, realization: {i}")
+        # print(f"dt: {dt}, realization: {i}")
         N = int(T/dt)
         X_exact = Num_Scheme(X10, X20, N_exact, dW_exact_realization, "Euler-Ito")
         X_approx = Num_Scheme(X10, X20, N, dW_exact_realization, "Euler-Ito")
@@ -130,66 +132,162 @@ err_weakX1_list_Milstein = np.abs(np.mean(err_weakX1_array_Milstein, axis=0))
 err_weakX2_list_Milstein = np.abs(np.mean(err_weakX2_array_Milstein, axis=0))
 
 end_time = time.time()
-print(f"Time taken: {end_time-start_time}")
-    
-plt.loglog(dt_list, err_strongX1_list_Ito)
-plt.loglog(dt_list, err_strongX2_list_Ito)
-plt.xlabel("dt")
-plt.ylabel("Strong Error")
-plt.title("Strong Error for X1 and X2 - Euler Scheme, Ito Interpretation")
-plt.legend(["Strong Error X1", " Strong Error X2"])
-plt.grid()
-plt.savefig(path + "/Strong_Error_X1_X2_Euler_Ito.png")
-plt.clf()
-
-plt.loglog(dt_list, err_weakX1_list_Ito)
-plt.loglog(dt_list, err_weakX2_list_Ito)
-plt.xlabel("dt")
-plt.ylabel("Weak Error")
-plt.title("Weak Error for X1 and X2 - Euler Scheme, Ito Interpretation")
-plt.legend(["Weak Error X1", " Weak Error X2"])
-plt.grid()
-plt.savefig(path + "/Weak_Error_X1_X2_Euler_Ito.png")
-plt.clf()
-
-
-plt.loglog(dt_list, err_strongX1_list_Stratonovitch)
-plt.loglog(dt_list, err_strongX2_list_Stratonovitch)
-plt.xlabel("dt")
-plt.ylabel("Strong Error")
-plt.title("Strong Error for X1 and X2 - Euler Scheme, Stratonovitch Interpretation")
-plt.legend(["Strong Error X1", " Strong Error X2"])
-plt.grid()
-plt.savefig(path + "/Strong_Error_X1_X2_Euler_Stratonovitch.png")
-plt.clf()
-
-plt.loglog(dt_list, err_weakX1_list_Stratonovitch)
-plt.loglog(dt_list, err_weakX2_list_Stratonovitch)
-plt.xlabel("dt")
-plt.ylabel("Weak Error")
-plt.title("Weak Error for X1 and X2 - Euler Scheme, Stratonovitch Interpretation")
-plt.legend(["Weak Error X1", " Weak Error X2"])
-plt.grid()
-plt.savefig(path + "/Weak_Error_X1_X2_Euler_Stratonovitch.png")
-plt.clf()
+print(f"Time taken for {dW_realizations} realizations and exact dt={dt_exact}: {end_time-start_time} seconds")
     
 
-plt.loglog(dt_list, err_strongX1_list_Milstein)
-plt.loglog(dt_list, err_strongX2_list_Milstein)
+#### strong error plots Euler, Ito ####
+slope_X1 = np.polyfit(np.log10(dt_list), np.log10(err_strongX1_list_Ito), 1)
+slope_X2 = np.polyfit(np.log10(dt_list), np.log10(err_strongX2_list_Ito), 1)
+print(f"Slope of Strong Error X1 (Euler-Ito): {slope_X1}")
+print(f"Slope of Strong Error X2 (Euler-Ito): {slope_X2}")
+
+plt.loglog(dt_list, err_strongX1_list_Ito, color=err_color, label="Strong Error X1")
+plt.loglog(dt_list, dt_list**slope_X1[0]*10**slope_X1[1], linestyle='dashed', color=line_color, label=f"Slope: {slope_X1[0]:.2f}")
 plt.xlabel("dt")
 plt.ylabel("Strong Error")
-plt.title("Strong Error for X1 and X2 - Milstein Scheme, Stratonovitch Interpretation")
-plt.legend(["Strong Error X1", " Strong Error X2"])
+plt.title("Strong Error for X1 - Euler Scheme, Ito Interpretation")
+plt.legend()
 plt.grid()
-plt.savefig(path + "/Strong_Error_X1_X2_Milstein_Stratonovitch.png")
+plt.savefig(path + "/Strong_Error_X1_Euler_Ito.png")
 plt.clf()
 
-plt.loglog(dt_list, err_weakX1_list_Milstein)
-plt.loglog(dt_list, err_weakX2_list_Milstein)
+plt.loglog(dt_list, err_strongX2_list_Ito, color=err_color, label="Strong Error X2")
+plt.loglog(dt_list, dt_list**slope_X2[0]*10**slope_X2[1], linestyle='dashed', color=line_color, label=f"Slope: {slope_X2[0]:.2f}")
+plt.xlabel("dt")
+plt.ylabel("Strong Error")
+plt.title("Strong Error for X2 - Euler Scheme, Ito Interpretation")
+plt.legend()
+plt.grid()
+plt.savefig(path + "/Strong_Error_X2_Euler_Ito.png")
+plt.clf()
+
+
+#### weak error plots Euler, Ito ####
+slope_X1 = np.polyfit(np.log10(dt_list), np.log10(err_weakX1_list_Ito), 1)
+slope_X2 = np.polyfit(np.log10(dt_list), np.log10(err_weakX2_list_Ito), 1)
+print(f"Slope of Weak Error X1 (Euler-Ito): {slope_X1}")
+print(f"Slope of Weak Error X2 (Euler-Ito): {slope_X2}")
+
+plt.loglog(dt_list, err_weakX1_list_Ito, color=err_color, label="Weak Error X1")
+plt.loglog(dt_list, dt_list**slope_X1[0]*10**slope_X1[1], linestyle='dashed', color=line_color, label=f"Slope: {slope_X1[0]:.2f}")
 plt.xlabel("dt")
 plt.ylabel("Weak Error")
-plt.title("Weak Error for X1 and X2 - Milstein Scheme, Stratonovitch Interpretation")
-plt.legend(["Weak Error X1", " Weak Error X2"])
+plt.title("Weak Error for X1 - Euler Scheme, Ito Interpretation")
+plt.legend()
 plt.grid()
-plt.savefig(path + "/Weak_Error_X1_X2_Milstein_Stratonovitch.png")
+plt.savefig(path + "/Weak_Error_X1_Euler_Ito.png")
+plt.clf()
+
+plt.loglog(dt_list, err_weakX2_list_Ito, color=err_color, label="Weak Error X2")
+plt.loglog(dt_list, dt_list**slope_X2[0]*10**slope_X2[1], linestyle='dashed', color=line_color, label=f"Slope: {slope_X2[0]:.2f}")
+plt.xlabel("dt")
+plt.ylabel("Weak Error")
+plt.title("Weak Error for X2 - Euler Scheme, Ito Interpretation")
+plt.legend()
+plt.grid()
+plt.savefig(path + "/Weak_Error_X2_Euler_Ito.png")
+plt.clf()
+
+#### strong error plots Euler, Stratonovitch ####
+slope_X1 = np.polyfit(np.log10(dt_list), np.log10(err_strongX1_list_Stratonovitch), 1)
+slope_X2 = np.polyfit(np.log10(dt_list), np.log10(err_strongX2_list_Stratonovitch), 1)
+print(f"Slope of Strong Error X1 (Euler-Stratonovitch): {slope_X1}")
+print(f"Slope of Strong Error X2 (Euler-Stratonovitch): {slope_X2}")
+
+plt.loglog(dt_list, err_strongX1_list_Stratonovitch, color=err_color, label="Strong Error X1")
+plt.loglog(dt_list, dt_list**slope_X1[0]*10**slope_X1[1], linestyle='dashed', color=line_color, label=f"Slope: {slope_X1[0]:.2f}")
+plt.xlabel("dt")
+plt.ylabel("Strong Error")
+plt.title("Strong Error for X1 - Euler Scheme, Stratonovitch Interpretation")
+plt.legend()
+plt.grid()
+plt.savefig(path + "/Strong_Error_X1_Euler_Stratonovitch.png")
+plt.clf()
+
+plt.loglog(dt_list, err_strongX2_list_Stratonovitch, color=err_color, label="Strong Error X2")
+plt.loglog(dt_list, dt_list**slope_X2[0]*10**slope_X2[1], linestyle='dashed', color=line_color, label=f"Slope: {slope_X2[0]:.2f}")
+plt.xlabel("dt")
+plt.ylabel("Strong Error")
+plt.title("Strong Error for X2 - Euler Scheme, Stratonovitch Interpretation")
+plt.legend()
+plt.grid()
+plt.savefig(path + "/Strong_Error_X2_Euler_Stratonovitch.png")
+plt.clf()
+
+#### weak error plots Euler, Stratonovitch ####
+slope_X1 = np.polyfit(np.log10(dt_list), np.log10(err_weakX1_list_Stratonovitch), 1)
+slope_X2 = np.polyfit(np.log10(dt_list), np.log10(err_weakX2_list_Stratonovitch), 1)
+print(f"Slope of Weak Error X1 (Euler-Stratonovitch): {slope_X1}")
+print(f"Slope of Weak Error X2 (Euler-Stratonovitch): {slope_X2}")
+
+plt.loglog(dt_list, err_weakX1_list_Stratonovitch, color=err_color, label="Weak Error X1")
+plt.loglog(dt_list, dt_list**slope_X1[0]*10**slope_X1[1], linestyle='dashed', color=line_color, label=f"Slope: {slope_X1[0]:.2f}")
+plt.xlabel("dt")
+plt.ylabel("Weak Error")
+plt.title("Weak Error for X1 - Euler Scheme, Stratonovitch Interpretation")
+plt.legend()
+plt.grid()
+plt.savefig(path + "/Weak_Error_X1_Euler_Stratonovitch.png")
+plt.clf()
+
+plt.loglog(dt_list, err_weakX2_list_Stratonovitch, color=err_color, label="Weak Error X2")
+plt.loglog(dt_list, dt_list**slope_X2[0]*10**slope_X2[1], linestyle='dashed', color=line_color, label=f"Slope: {slope_X2[0]:.2f}")
+plt.xlabel("dt")
+plt.ylabel("Weak Error")
+plt.title("Weak Error for X2 - Euler Scheme, Stratonovitch Interpretation")
+plt.legend()
+plt.grid()
+plt.savefig(path + "/Weak_Error_X2_Euler_Stratonovitch.png")
+plt.clf()
+
+#### strong error plots Milstein ####
+slope_X1 = np.polyfit(np.log10(dt_list), np.log10(err_strongX1_list_Milstein), 1)
+slope_X2 = np.polyfit(np.log10(dt_list), np.log10(err_strongX2_list_Milstein), 1)
+print(f"Slope of Strong Error X1 (Milstein): {slope_X1}")
+print(f"Slope of Strong Error X2 (Milstein): {slope_X2}")
+
+plt.loglog(dt_list, err_strongX1_list_Milstein, color=err_color, label="Strong Error X1")
+plt.loglog(dt_list, dt_list**slope_X1[0]*10**slope_X1[1], linestyle='dashed', color=line_color, label=f"Slope: {slope_X1[0]:.2f}")
+plt.xlabel("dt")
+plt.ylabel("Strong Error")
+plt.title("Strong Error for X1 - Milstein Scheme")
+plt.legend()
+plt.grid()
+plt.savefig(path + "/Strong_Error_X1_Milstein.png")
+plt.clf()
+
+plt.loglog(dt_list, err_strongX2_list_Milstein, color=err_color, label="Strong Error X2")
+plt.loglog(dt_list, dt_list**slope_X2[0]*10**slope_X2[1], linestyle='dashed', color=line_color, label=f"Slope: {slope_X2[0]:.2f}")
+plt.xlabel("dt")
+plt.ylabel("Strong Error")
+plt.title("Strong Error for X2 - Milstein Scheme")
+plt.legend()
+plt.grid()
+plt.savefig(path + "/Strong_Error_X2_Milstein.png")
+plt.clf()
+
+#### weak error plots Milstein ####
+slope_X1 = np.polyfit(np.log10(dt_list), np.log10(err_weakX1_list_Milstein), 1)
+slope_X2 = np.polyfit(np.log10(dt_list), np.log10(err_weakX2_list_Milstein), 1)
+print(f"Slope of Weak Error X1 (Milstein): {slope_X1}")
+print(f"Slope of Weak Error X2 (Milstein): {slope_X2}")
+
+plt.loglog(dt_list, err_weakX1_list_Milstein, color=err_color, label="Weak Error X1")
+plt.loglog(dt_list, dt_list**slope_X1[0]*10**slope_X1[1], linestyle='dashed', color=line_color, label=f"Slope: {slope_X1[0]:.2f}")
+plt.xlabel("dt")
+plt.ylabel("Weak Error")
+plt.title("Weak Error for X1 - Milstein Scheme")
+plt.legend()
+plt.grid()
+plt.savefig(path + "/Weak_Error_X1_Milstein.png")
+plt.clf()
+
+plt.loglog(dt_list, err_weakX2_list_Milstein, color=err_color, label="Weak Error X2")
+plt.loglog(dt_list, dt_list**slope_X2[0]*10**slope_X2[1], linestyle='dashed', color=line_color, label=f"Slope: {slope_X2[0]:.2f}")
+plt.xlabel("dt")
+plt.ylabel("Weak Error")
+plt.title("Weak Error for X2 - Milstein Scheme")
+plt.legend()
+plt.grid()
+plt.savefig(path + "/Weak_Error_X2_Milstein.png")
 plt.clf()

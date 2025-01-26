@@ -1,9 +1,0 @@
-
-The following have been reloaded with a version change:
-  1) openblas/0.3.24_threads_none => openblas/0.3.24_threads_openmp
-  2) py-numpy/1.26.1 => py-numpy/1.24.0
-
-/home/stefanion/Satelit
-100000
-100000
-Time taken for 1000 realizations and exact dt=0.0001: 5919.951664924622 seconds

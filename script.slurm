@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name="stochastic-satelit"
 #SBATCH --output=schocastic-satelit.out
-#SBATCH --time=03:59:00
+#SBATCH --time=06:00:00
 #SBATCH --ntasks=1
 #SBATCH --partition=compute-p2
 #SBATCH --cpus-per-task=8
