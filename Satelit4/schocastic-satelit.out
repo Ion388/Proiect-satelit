@@ -1,0 +1,21 @@
+
+The following have been reloaded with a version change:
+  1) openblas/0.3.24_threads_none => openblas/0.3.24_threads_openmp
+  2) py-numpy/1.26.1 => py-numpy/1.24.0
+
+/home/stefanion/Satelit4
+50000
+50000
+Time taken for 1000 realizations and exact dt=0.0001: 3793.5355377197266 seconds
+Slope of Strong Error X1 (Euler-Ito): [ 0.54311266 -1.87033226]
+Slope of Strong Error X2 (Euler-Ito): [ 0.57308519 -2.07586325]
+Slope of Weak Error X1 (Euler-Ito): [ 0.6654653  -2.80771229]
+Slope of Weak Error X2 (Euler-Ito): [ 0.40745724 -3.14739384]
+Slope of Strong Error X1 (Euler-Stratonovitch): [ 0.49478299 -1.13152562]
+Slope of Strong Error X2 (Euler-Stratonovitch): [ 0.52868889 -1.17076329]
+Slope of Weak Error X1 (Euler-Stratonovitch): [ 0.65143877 -1.76771606]
+Slope of Weak Error X2 (Euler-Stratonovitch): [ 0.2775775  -2.45867092]
+Slope of Strong Error X1 (Milstein): [ 0.96703386 -1.20102844]
+Slope of Strong Error X2 (Milstein): [ 0.94882534 -1.37960996]
+Slope of Weak Error X1 (Milstein): [ 1.04181062 -1.46523585]
+Slope of Weak Error X2 (Milstein): [ 0.91860884 -1.91850668]
