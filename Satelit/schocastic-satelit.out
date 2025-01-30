@@ -5,17 +5,20 @@ The following have been reloaded with a version change:
 
 /home/stefanion/Satelit
 100000
-100000
-Time taken for 1000 realizations and exact dt=0.0001: 7541.495274782181 seconds
-Slope of Strong Error X1 (Euler-Ito): [ 0.70644479 -2.77502774]
-Slope of Strong Error X2 (Euler-Ito): [ 0.72712071 -2.93237998]
-Slope of Weak Error X1 (Euler-Ito): [ 1.02415868 -3.04361762]
-Slope of Weak Error X2 (Euler-Ito): [ 1.05594682 -3.17894606]
-Slope of Strong Error X1 (Euler-Stratonovitch): [ 0.66198527 -2.38282196]
-Slope of Strong Error X2 (Euler-Stratonovitch): [ 0.68189547 -2.54922256]
-Slope of Weak Error X1 (Euler-Stratonovitch): [ 1.04495078 -2.94462234]
-Slope of Weak Error X2 (Euler-Stratonovitch): [ 1.14091702 -2.67133271]
-Slope of Strong Error X1 (Milstein): [ 1.09146904 -2.22750489]
-Slope of Strong Error X2 (Milstein): [ 1.09461354 -2.34434212]
-Slope of Weak Error X1 (Milstein): [ 1.04432421 -2.79255934]
-Slope of Weak Error X2 (Milstein): [ 1.06290673 -2.62429542]
+100001
+20000
+2000
+200
+Time taken for 1000 realizations and exact dt=0.0001: 7916.036986351013 seconds
+Slope of Strong Error X1 (Euler-Ito): [ 0.7065029  -2.77507779]
+Slope of Strong Error X2 (Euler-Ito): [ 0.72723352 -2.93226124]
+Slope of Weak Error X1 (Euler-Ito): [ 1.02348138 -3.04497273]
+Slope of Weak Error X2 (Euler-Ito): [ 1.0575902  -3.17734692]
+Slope of Strong Error X1 (Euler-Stratonovitch): [ 0.6620382  -2.38281412]
+Slope of Strong Error X2 (Euler-Stratonovitch): [ 0.68190589 -2.549316  ]
+Slope of Weak Error X1 (Euler-Stratonovitch): [ 1.05909019 -2.92841565]
+Slope of Weak Error X2 (Euler-Stratonovitch): [ 1.1395603 -2.6732946]
+Slope of Strong Error X1 (Milstein): [ 1.09145805 -2.22751768]
+Slope of Strong Error X2 (Milstein): [ 1.09460504 -2.34446565]
+Slope of Weak Error X1 (Milstein): [ 1.04435259 -2.79258042]
+Slope of Weak Error X2 (Milstein): [ 1.06287685 -2.62453266]
