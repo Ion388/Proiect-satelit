@@ -79,7 +79,7 @@ def Num_Scheme(X10, X20, N, dW_exact, case):
 
 if sol_plots==True:
     dW_exact = np.random.normal(mu, np.sqrt(dt_exact), int(T/dt_exact))
-    for dt in [0.0005, 0.005, 0.05]:
+    for dt in [0.0005, 0.005, 0.05, 0.5]:
         N = int(T/dt)
         X_exact = Num_Scheme(X10, X20, N_exact, dW_exact, "Euler-Ito")
         X_approx = Num_Scheme(X10, X20, N, dW_exact, "Euler-Ito")
