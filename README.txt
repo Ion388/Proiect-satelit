@@ -1,0 +1,2 @@
+This is the documentation for the project conducted within the course TW3750TU by Bianca Crisan and Stefan Ion. Each folder contains the same Python code, but with different a, b, c and T constants chosen. Line 12 in the code gives the user the choice of whether to show the evolution of solutions with time (scheme/interpretation can be changed in lines 84 and 85) or not. Line 13 does the same with the error study for all schemes/interpretations - VERY COMPUTATIONALLY INTENSIVE.
+Other constants up to line 30 can be changed (X1_0, X2_0, dt_exact, plot parameters).
